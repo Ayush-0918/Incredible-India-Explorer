@@ -3,116 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agricultural Map of India Explorer | Incredible India</title>
-    <link rel="stylesheet" href="../css/global.css">
+    <meta name="description" content="Peasant & Agrarian Resistance Map - Interactive map exploring the historical peasant uprisings and agricultural struggles in colonial India.">
+    <title>Peasant & Agrarian Resistance Map | Incredible India Explorer</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet Map CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="../styles/pages.css" onerror="this.onerror=null;this.href='../pages-common.css';">
+    <!-- Local styles -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="light-theme">
+<body class="peasant-map-body">
+    <script>
+        (function() {
+            let theme = 'dark'; try { theme = JSON.parse(localStorage.getItem('iie_storage') || '{}').theme || 'dark'; } catch(e) {}
+            if (theme === 'light') { document.body.classList.add('light-theme'); }
+        })();
+    </script>
 
-    <header class="agri-header">
-        <a href="../../index.html" class="back-link">&larr; Back to Home</a>
-        <div class="header-content">
-            <h1>Agricultural Map of India</h1>
-            <p>Explore the vast diversity of crops, growing seasons, and the cultural harvest festivals that shape India's agrarian heartbeat.</p>
-            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Dark Mode">🌙 Dark Mode</button>
+    <!-- Navigation Bar -->
+    <header class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <a href="../../index.html#home" class="nav-logo" id="nav-logo">
+                <span class="saffron">Incredible</span>
+                <span class="gold">India</span>
+                <span class="green">Explorer</span>
+            </a>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <nav class="nav-menu" id="nav-menu">
+                <a href="../../index.html#home" class="nav-link">Home</a>
+                <a href="../freedom-movement-explorer/index.html" class="nav-link">Movement Explorer</a>
+                <a href="../freedom-timeline/index.html" class="nav-link">Timeline</a>
+                <a href="index.html" class="nav-link active" style="color: var(--saffron)">Agrarian Uprisings</a>
+                <button id="theme-toggle" class="btn-theme-toggle" aria-label="Toggle Dark/Light Mode">☀️</button>
+            </nav>
         </div>
     </header>
 
-    <main class="agri-main">
+    <main class="peasant-main">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <span class="hero-kicker">🌾 Land & Liberty · 1850–1947 Uprisings</span>
+                <h1>Peasant & Agrarian <span>Resistance Map</span></h1>
+                <p class="subtitle">Explore the historical peasant rebellions and agricultural struggles against colonial policies, landlord exploitation, and forced crop systems.</p>
+            </div>
+        </section>
 
-        <!-- Map Section -->
-        <section class="map-section" aria-labelledby="map-title">
-            <h2 id="map-title" class="section-title">Regional Agricultural Zones</h2>
-            <p class="section-subtitle">Select a region on the map to discover its primary crops and agricultural practices.</p>
-
-            <div class="map-container">
-                
-                <!-- Abstract India Map SVG -->
-                <svg viewBox="0 0 500 600" class="agri-map" id="agri-map" xmlns="http://www.w3.org/2000/svg" role="application" aria-label="Interactive map of India's agricultural regions">
+        <!-- Interactive Split Workspace -->
+        <section class="peasant-workspace">
+            
+            <!-- Sidebar Controls and List -->
+            <div class="control-panel">
+                <div class="panel-section">
+                    <h2>🔍 Filters</h2>
                     
-                    <!-- North Region -->
-                    <g class="map-region" data-region="north" role="button" tabindex="0" aria-label="Northern India Region">
-                        <path d="M 180 50 C 250 10, 320 80, 260 180 L 150 160 Z" fill="#b3e5fc" stroke="#fff" stroke-width="3"/>
-                        <text x="210" y="110" class="region-text">North</text>
-                    </g>
+                    <div class="filter-group">
+                        <label for="cause-filter">Economic Cause:</label>
+                        <select id="cause-filter" class="control-select">
+                            <option value="all">All Economic Causes</option>
+                            <option value="Forced Indigo Cultivation">Forced Indigo Cultivation</option>
+                            <option value="High Land Revenue">High Land Revenue & Taxes</option>
+                            <option value="Eviction & Tenancy Insecurity">Eviction & Tenancy Insecurity</option>
+                            <option value="Debt Trap & Usury">Debt Trap & Money Lenders</option>
+                        </select>
+                    </div>
 
-                    <!-- East & North-East Region -->
-                    <g class="map-region" data-region="east" role="button" tabindex="0" aria-label="Eastern and North-Eastern India Region">
-                        <path d="M 260 180 C 350 200, 480 150, 480 250 C 480 320, 320 300, 260 250 Z" fill="#c8e6c9" stroke="#fff" stroke-width="3"/>
-                        <text x="350" y="230" class="region-text">East / NE</text>
-                    </g>
+                    <div class="filter-group">
+                        <label for="region-filter">Region:</label>
+                        <select id="region-filter" class="control-select">
+                            <option value="all">All Regions</option>
+                            <option value="North">North India</option>
+                            <option value="South">South India</option>
+                            <option value="East">East India</option>
+                            <option value="West">West India</option>
+                        </select>
+                    </div>
+                </div>
 
-                    <!-- Central Region -->
-                    <g class="map-region" data-region="central" role="button" tabindex="0" aria-label="Central India Region">
-                        <path d="M 150 160 L 260 180 L 260 250 C 200 300, 100 280, 150 160 Z" fill="#ffecb3" stroke="#fff" stroke-width="3"/>
-                        <text x="190" y="230" class="region-text">Central</text>
-                    </g>
+                <div class="panel-section">
+                    <h2>✊ Uprisings Directory</h2>
+                    <div class="movements-list" id="movements-list">
+                        <!-- Dynamic list item cards injected here -->
+                    </div>
+                </div>
+            </div>
 
-                    <!-- West Region -->
-                    <g class="map-region" data-region="west" role="button" tabindex="0" aria-label="Western India Region">
-                        <path d="M 50 180 C 120 180, 150 160, 150 160 C 100 280, 50 280, 50 180 Z" fill="#ffe0b2" stroke="#fff" stroke-width="3"/>
-                        <text x="90" y="220" class="region-text">West</text>
-                    </g>
+            <!-- Interactive Map Wrapper -->
+            <div class="map-panel">
+                <div id="peasant-map" class="peasant-map"></div>
+                <div class="map-legend">
+                    <div><span class="legend-dot Indigo"></span> Indigo Cultivation</div>
+                    <div><span class="legend-dot Taxes"></span> High Revenue & Taxes</div>
+                    <div><span class="legend-dot Debt"></span> Debt Trap / Usury</div>
+                    <div><span class="legend-dot Tenancy"></span> Evictions & Tenancy</div>
+                </div>
+            </div>
 
-                    <!-- South Region -->
-                    <g class="map-region" data-region="south" role="button" tabindex="0" aria-label="Southern India Region">
-                        <path d="M 100 280 C 200 300, 260 250, 260 250 C 280 350, 250 500, 180 550 C 110 500, 100 350, 100 280 Z" fill="#d1c4e9" stroke="#fff" stroke-width="3"/>
-                        <text x="180" y="380" class="region-text">South</text>
-                    </g>
+        </section>
 
-                </svg>
+        <!-- Chronological Timeline Ribbon -->
+        <section class="timeline-ribbon-section">
+            <h2 class="section-title">Timeline of Agrarian Struggles (1859 - 1946)</h2>
+            <div class="timeline-container" id="timeline-container">
+                <div class="timeline-line"></div>
+                <div class="timeline-nodes-wrapper" id="timeline-nodes-wrapper">
+                    <!-- Chronological cards injected here -->
+                </div>
+            </div>
+        </section>
 
-                <!-- Tooltip Popover Container -->
-                <div id="region-tooltip" class="custom-tooltip" role="tooltip" aria-live="assertive" aria-hidden="true">
-                    <!-- Dynamic content injected via JS -->
+        <!-- Compare Movements Tool -->
+        <section class="compare-section">
+            <h2 class="section-title">⚖️ Compare Peasant Movements</h2>
+            <p class="section-subtitle">Select any two movements to compare their historical characteristics, economic causes, forms of protest, and outcomes.</p>
+            
+            <div class="comparison-selectors">
+                <div class="selector-box">
+                    <label for="compare-a">Movement A:</label>
+                    <select id="compare-a" class="compare-select"></select>
+                </div>
+                <div class="comparison-vs">VS</div>
+                <div class="selector-box">
+                    <label for="compare-b">Movement B:</label>
+                    <select id="compare-b" class="compare-select"></select>
+                </div>
+            </div>
+
+            <div class="comparison-display" id="comparison-display">
+                <!-- Comparison table dynamically loaded here -->
+            </div>
+        </section>
+
+        <!-- Peasant Leaders Gallery -->
+        <section class="leaders-section">
+            <h2 class="section-title">👤 Key Agrarian Leaders</h2>
+            <p class="section-subtitle">The organizers, thinkers, and satyagrahis who championed peasant rights during the freedom struggle.</p>
+            <div class="leaders-grid" id="leaders-grid">
+                <!-- Leader cards loaded here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Details Modal Dialog -->
+    <dialog id="movement-modal" class="movement-modal" aria-labelledby="modal-title">
+        <div class="modal-content">
+            <button id="close-modal" class="close-btn" aria-label="Close modal">✕</button>
+            <div class="modal-header">
+                <span id="modal-year" class="modal-year">1859</span>
+                <h2 id="modal-title" class="modal-title">Indigo Revolt</h2>
+                <div class="modal-badges">
+                    <span id="modal-region-badge" class="badge">East</span>
+                    <span id="modal-cause-badge" class="badge danger">Forced Indigo Cultivation</span>
                 </div>
             </div>
             
-            <div class="legend">
-                <p><strong>Note:</strong> This abstract map divides India into 5 major geographical zones to highlight broad agricultural patterns.</p>
+            <div class="modal-body">
+                <div class="modal-grid">
+                    <div class="modal-meta-info">
+                        <p><strong>📍 Region:</strong> <span id="modal-location">Bengal</span></p>
+                        <p><strong>👤 Prominent Leaders:</strong> <span id="modal-leaders">Bishnucharan Biswas, Digambar Biswas</span></p>
+                        <p><strong>🛡️ Form of Resistance:</strong> <span id="modal-resistance-form">Strikes, refusal to plant indigo, social boycotts</span></p>
+                    </div>
+                    <div class="modal-desc-box">
+                        <h3>Economic Cause & Grievances</h3>
+                        <p id="modal-economic-causes">Description of causes</p>
+                    </div>
+                    <div class="modal-desc-box">
+                        <h3>Historical Outcome & Significance</h3>
+                        <p id="modal-outcome">Description of outcome</p>
+                    </div>
+                </div>
+                <div class="modal-sources" id="modal-sources-box">
+                    <h4>Historical Sources / References</h4>
+                    <p id="modal-sources">Sources text</p>
+                </div>
             </div>
-        </section>
+        </div>
+    </dialog>
 
-        <!-- Harvest Festivals Section -->
-        <section class="festivals-section" aria-labelledby="festivals-title">
-            <h2 id="festivals-title" class="section-title">Celebrating the Harvest</h2>
-            <p class="section-subtitle">Agriculture in India is deeply intertwined with cultural celebrations. Explore major harvest festivals across the country.</p>
-            
-            <div class="festivals-grid">
-                
-                <article class="festival-card">
-                    <h3>🌾 Makar Sankranti / Pongal / Lohri</h3>
-                    <p class="festival-meta">Mid-January</p>
-                    <p>Celebrated under various names across India, this festival marks the end of the winter solstice and the harvest of Rabi crops like wheat and sugarcane. <strong>Lohri</strong> is massive in Punjab, <strong>Pongal</strong> in Tamil Nadu honors the sun god and cattle, and <strong>Makar Sankranti</strong> involves kite flying in Gujarat and Maharashtra.</p>
-                </article>
-
-                <article class="festival-card">
-                    <h3>🌸 Baisakhi / Rongali Bihu</h3>
-                    <p class="festival-meta">Mid-April</p>
-                    <p>Marks the harvest of the Rabi (winter) crops and the start of the solar new year. <strong>Baisakhi</strong> is celebrated with immense joy in Punjab involving Bhangra dances. <strong>Rongali Bihu</strong> in Assam celebrates the beginning of the Assamese New Year and the sowing season.</p>
-                </article>
-
-                <article class="festival-card">
-                    <h3>🌴 Onam</h3>
-                    <p class="festival-meta">August-September</p>
-                    <p>The biggest harvest festival of Kerala. It celebrates the rice harvest and the mythological homecoming of King Mahabali. Features elaborate flower carpets (Pookkalam), boat races (Vallam Kali), and a grand feast (Sadhya).</p>
-                </article>
-
-                <article class="festival-card">
-                    <h3>🍚 Nuakhai</h3>
-                    <p class="festival-meta">August-September</p>
-                    <p>An agricultural festival mainly observed in Odisha. The word 'Nua' means new and 'Khai' means food. It is celebrated to welcome the newly harvested rice of the season with deep cultural reverence.</p>
-                </article>
-
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="agri-footer">
-        <p>Honor the hands that feed the nation. Incredible India.</p>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 Incredible India Explorer. Dedicated to the peasant struggle that formed the bedrock of India's independence movement.</p>
+        </div>
     </footer>
 
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <!-- Scripts -->
     <script src="script.js"></script>
 </body>
 </html>

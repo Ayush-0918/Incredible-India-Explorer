@@ -1,304 +1,615 @@
-/* 
-   Agricultural Map of India Explorer Styles
-   Imports global variables from ../css/global.css implicitly
-*/
+/* style.css - Peasant and Agrarian Resistance Map Page Styles */
 
-/* --- Base & Header --- */
-body {
+:root {
+    --agr-bg: #0b0f19;
+    --agr-card-bg: rgba(20, 30, 55, 0.75);
+    --agr-border: rgba(255, 255, 255, 0.1);
+    --agr-text: #f8fafc;
+    --agr-muted: #94a3b8;
+    
+    --agr-indigo: #ef4444;
+    --agr-taxes: #eab308;
+    --agr-tenancy: #8b5cf6;
+    --agr-debt: #3b82f6;
+    
+    --saffron: #f97316;
+    --gold: #eab308;
+    --green: #10b981;
+}
+
+body.light-theme {
+    --agr-bg: #f8fafc;
+    --agr-card-bg: rgba(255, 255, 255, 0.95);
+    --agr-border: rgba(0, 0, 0, 0.08);
+    --agr-text: #0f172a;
+    --agr-muted: #475569;
+}
+
+.peasant-map-body {
+    background-color: var(--agr-bg);
+    color: var(--agr-text);
+    font-family: 'Outfit', sans-serif;
     margin: 0;
     padding: 0;
-    font-family: var(--font-primary, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif);
-    background-color: var(--bg-light, #fdfbf7);
-    color: var(--text-main, #333);
-    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-body.dark-theme {
-    background-color: var(--bg-dark, #121212);
-    color: var(--text-light, #f0f0f0);
+.peasant-main {
+    padding-top: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
 }
 
-.agri-header {
+/* Hero Section */
+.hero-section {
+    padding: 4rem 2rem 2rem;
     text-align: center;
-    padding: 3rem 1rem;
-    position: relative;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    background: linear-gradient(180deg, rgba(165, 214, 167, 0.2) 0%, transparent 100%);
+    background: radial-gradient(circle at 50% 20%, rgba(249, 115, 22, 0.08) 0%, transparent 60%);
+    border-bottom: 1px solid var(--agr-border);
 }
 
-body.dark-theme .agri-header {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    background: linear-gradient(180deg, rgba(165, 214, 167, 0.05) 0%, transparent 100%);
-}
-
-.back-link {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    text-decoration: none;
-    color: inherit;
-    font-weight: 500;
-}
-
-.back-link:hover {
-    text-decoration: underline;
-}
-
-.header-content h1 {
-    margin-bottom: 0.5rem;
-    font-size: 2.5rem;
-    color: #2e7d32;
-}
-body.dark-theme .header-content h1 { color: #81c784; }
-
-.header-content p {
-    max-width: 600px;
+.hero-content {
+    max-width: 800px;
     margin: 0 auto;
+}
+
+.hero-kicker {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    background: rgba(249, 115, 22, 0.1);
+    color: var(--saffron);
+    border: 1px solid rgba(249, 115, 22, 0.25);
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.hero-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 800;
+    margin: 0 0 1rem 0;
+}
+
+.hero-content h1 span {
+    color: var(--gold);
+}
+
+.subtitle {
     font-size: 1.1rem;
-    color: #555;
+    color: var(--agr-muted);
+    line-height: 1.6;
 }
 
-body.dark-theme .header-content p {
-    color: #ccc;
+/* Split Workspace */
+.peasant-workspace {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 2rem;
+    padding: 0 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: calc(100% - 4rem);
 }
 
-.theme-toggle {
-    margin-top: 1.5rem;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 4px;
+/* Left controls sidebar */
+.control-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.panel-section {
+    background: var(--agr-card-bg);
+    border: 1px solid var(--agr-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.panel-section h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 1.25rem 0;
+    color: var(--gold);
+    border-bottom: 1px solid var(--agr-border);
+    padding-bottom: 0.5rem;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+}
+
+.filter-group:last-child {
+    margin-bottom: 0;
+}
+
+.filter-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.control-select {
+    background: var(--agr-bg);
+    border: 1px solid var(--agr-border);
+    color: var(--agr-text);
+    padding: 0.6rem;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
     cursor: pointer;
-    background-color: #333;
-    color: #fff;
-    font-weight: bold;
-    transition: background-color 0.2s;
 }
 
-.theme-toggle:hover {
-    background-color: #555;
+/* Movements list */
+.movements-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 0.25rem;
 }
 
-body.dark-theme .theme-toggle {
-    background-color: #f0f0f0;
-    color: #121212;
+.peasant-list-card {
+    background: var(--agr-bg);
+    border: 1px solid var(--agr-border);
+    border-left: 4px solid var(--saffron);
+    border-radius: 6px;
+    padding: 0.85rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease;
 }
-body.dark-theme .theme-toggle:hover {
-    background-color: #ccc;
+
+.peasant-list-card:hover {
+    transform: translateX(4px);
+    border-color: var(--gold);
+}
+
+.card-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 0.25rem;
+}
+
+.peasant-list-card h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 0 0 0.35rem 0;
+}
+
+.card-cause {
+    font-size: 0.75rem;
+    color: var(--agr-muted);
+    margin: 0;
+}
+
+/* Map Panel */
+.map-panel {
+    position: relative;
+    border-radius: 12px;
+    border: 1px solid var(--agr-border);
+    overflow: hidden;
+    height: 600px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.peasant-map {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.map-legend {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background: var(--agr-bg);
+    border: 1px solid var(--agr-border);
+    border-radius: 8px;
+    padding: 0.75rem;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.legend-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 0.4rem;
+}
+
+.legend-dot.Indigo { background-color: var(--agr-indigo); }
+.legend-dot.Taxes { background-color: var(--agr-taxes); }
+.legend-dot.Debt { background-color: var(--agr-debt); }
+.legend-dot.Tenancy { background-color: var(--agr-tenancy); }
+
+/* Timeline Ribbon */
+.timeline-ribbon-section {
+    padding: 2rem;
+    background: radial-gradient(circle at 50% 50%, rgba(249,115,22,0.03) 0%, transparent 100%);
+    border-top: 1px solid var(--agr-border);
+    border-bottom: 1px solid var(--agr-border);
 }
 
 .section-title {
-    text-align: center;
+    font-family: 'Playfair Display', serif;
     font-size: 2rem;
-    margin-bottom: 0.5rem;
+    text-align: center;
+    margin: 0 0 0.5rem 0;
 }
+
 .section-subtitle {
     text-align: center;
-    color: #666;
-    margin-bottom: 2rem;
+    color: var(--agr-muted);
+    font-size: 0.95rem;
+    margin: 0 0 2rem 0;
 }
-body.dark-theme .section-subtitle { color: #aaa; }
 
-/* --- Map Section --- */
-.map-section {
-    padding: 4rem 1rem;
+.timeline-container {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 0;
+    overflow-x: auto;
+}
+
+.timeline-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--agr-border);
+    transform: translateY(-50%);
+}
+
+.timeline-nodes-wrapper {
+    display: flex;
+    gap: 3rem;
+    width: max-content;
+    padding: 0 2rem;
+}
+
+.timeline-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 200px;
+    z-index: 2;
+}
+
+.timeline-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 3px solid var(--agr-bg);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+}
+
+.timeline-node-card {
+    background: var(--agr-card-bg);
+    border: 1px solid var(--agr-border);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 40px; /* Offset below line */
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+    width: 100%;
+}
+
+.timeline-node-card:hover {
+    transform: translateY(4px);
+    border-color: var(--gold);
+}
+
+.node-year {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.timeline-node-card h4 {
+    font-size: 0.9rem;
+    margin: 0 0 0.25rem 0;
+    line-height: 1.3;
+}
+
+.timeline-node-card p {
+    font-size: 0.75rem;
+    color: var(--agr-muted);
+    margin: 0;
+}
+
+/* Compare Movements */
+.compare-section {
+    padding: 0 2rem;
     max-width: 1000px;
     margin: 0 auto;
+    width: calc(100% - 4rem);
 }
 
-.map-container {
-    position: relative; /* important for tooltip positioning */
+.comparison-selectors {
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap: 2rem;
     margin-bottom: 2rem;
+    background: var(--agr-card-bg);
+    border: 1px solid var(--agr-border);
+    padding: 1.25rem;
+    border-radius: 10px;
 }
 
-/* SVG Abstract Map */
-.agri-map {
-    width: 100%;
-    max-width: 500px;
-    height: auto;
-    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
-}
-body.dark-theme .agri-map {
-    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+.selector-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    flex: 1;
+    max-width: 300px;
 }
 
-.map-region {
-    cursor: pointer;
-    transition: opacity 0.3s, transform 0.3s;
-    transform-origin: center;
-    outline: none;
+.selector-box label {
+    font-size: 0.85rem;
+    font-weight: 600;
 }
 
-.map-region:hover, .map-region:focus {
-    opacity: 0.8;
-}
-
-.map-region.active {
-    opacity: 1;
-    transform: scale(1.02);
-    filter: brightness(1.1);
-}
-
-/* Dim other regions when one is active */
-.agri-map.has-active .map-region:not(.active) {
-    opacity: 0.5;
-    filter: grayscale(0.5);
-}
-
-.region-text {
+.compare-select {
+    background: var(--agr-bg);
+    border: 1px solid var(--agr-border);
+    color: var(--agr-text);
+    padding: 0.6rem;
+    border-radius: 6px;
     font-family: inherit;
-    font-size: 20px;
-    font-weight: bold;
-    fill: #222;
-    text-anchor: middle;
-    pointer-events: none;
+    font-size: 0.9rem;
 }
 
-/* --- Tooltip Popover --- */
-.custom-tooltip {
-    position: absolute;
-    background-color: #fff;
-    color: #333;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    width: 300px;
-    z-index: 100;
-    pointer-events: none; /* so it doesn't block hover on map */
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px) translateX(-50%); /* Base transform */
-    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-    border-top: 4px solid #4caf50;
-    
-    /* Default position center-bottom relative to container if we don't do mouse tracking */
-    left: 50%;
-    bottom: -20px; 
+.comparison-vs {
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: var(--saffron);
 }
 
-/* Tooltip active state */
-.custom-tooltip.visible {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0) translateX(-50%);
-    pointer-events: auto; /* allow clicking inside tooltip if needed */
+.comparison-display {
+    background: var(--agr-card-bg);
+    border: 1px solid var(--agr-border);
+    border-radius: 12px;
+    overflow-x: auto;
 }
 
-body.dark-theme .custom-tooltip {
-    background-color: #2a2a2a;
-    color: #eee;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+.compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.9rem;
 }
 
-.custom-tooltip h3 {
-    margin-top: 0;
-    margin-bottom: 0.8rem;
-    color: #2e7d32;
-    font-size: 1.4rem;
-}
-body.dark-theme .custom-tooltip h3 { color: #81c784; }
-
-.custom-tooltip p {
-    margin: 0.5rem 0;
-    font-size: 0.95rem;
+.compare-table th, .compare-table td {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--agr-border);
     line-height: 1.5;
 }
 
-.custom-tooltip strong {
-    color: #111;
+.compare-table th {
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--gold);
+    font-weight: 700;
 }
-body.dark-theme .custom-tooltip strong { color: #fff; }
 
-.custom-tooltip .close-btn {
+.compare-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.compare-table tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.01);
+}
+
+/* Leaders Gallery */
+.leaders-section {
+    padding: 0 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: calc(100% - 4rem);
+}
+
+.leaders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.leader-card {
+    background: var(--agr-card-bg);
+    border: 1px solid var(--agr-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.leader-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--gold);
+}
+
+.leader-avatar {
+    width: 60px;
+    height: 60px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--agr-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin: 0 auto 1rem;
+}
+
+.leader-card h3 {
+    font-size: 1.1rem;
+    margin: 0 0 0.25rem 0;
+}
+
+.leader-movement {
+    font-size: 0.75rem;
+    color: var(--saffron);
+    text-transform: uppercase;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+.leader-card p {
+    font-size: 0.85rem;
+    color: var(--agr-muted);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Modal details */
+.movement-modal {
+    border: none;
+    background: transparent;
+    padding: 0;
+    max-width: 650px;
+    width: calc(100% - 2rem);
+}
+
+.movement-modal::backdrop {
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background: var(--agr-bg);
+    border: 1px solid var(--agr-border);
+    border-radius: 12px;
+    padding: 2rem;
+    position: relative;
+    color: var(--agr-text);
+}
+
+.close-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 15px;
+    right: 15px;
     background: none;
     border: none;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
+    color: var(--agr-muted);
     cursor: pointer;
-    color: #888;
 }
 
-/* Hide close button on desktop hover interactions, show for mobile clicks */
-@media (min-width: 768px) {
-    .custom-tooltip .close-btn {
-        display: none;
-    }
+.modal-header {
+    margin-bottom: 1.5rem;
 }
 
-.legend {
-    text-align: center;
-    font-size: 0.9rem;
-    color: #777;
-    margin-top: 1rem;
-}
-body.dark-theme .legend { color: #999; }
-
-/* --- Festivals Section --- */
-.festivals-section {
-    background-color: rgba(0,0,0,0.03);
-    padding: 4rem 1rem;
-}
-body.dark-theme .festivals-section {
-    background-color: rgba(255,255,255,0.03);
+.modal-year {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 0.25rem;
 }
 
-.festivals-grid {
+.modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    margin: 0 0 0.75rem 0;
+}
+
+.modal-badges {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 30px;
+    text-transform: uppercase;
+    background: rgba(255,255,255,0.05);
+}
+
+.badge.danger {
+    background: rgba(239,68,68,0.15);
+    color: #ef4444;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.modal-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    max-width: 1000px;
-    margin: 0 auto;
+    gap: 1.25rem;
 }
 
-@media (min-width: 768px) {
-    .festivals-grid {
-        grid-template-columns: 1fr 1fr;
-    }
+.modal-meta-info p {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.95rem;
 }
 
-.festival-card {
-    background-color: #fff;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    border-left: 4px solid #ffb300;
-}
-body.dark-theme .festival-card {
-    background-color: #252525;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+.modal-desc-box h3 {
+    font-size: 0.95rem;
+    color: var(--gold);
+    margin: 0 0 0.4rem 0;
+    text-transform: uppercase;
 }
 
-.festival-card h3 { 
-    margin-top: 0; 
-    margin-bottom: 0.5rem;
-    color: #e65100;
-}
-body.dark-theme .festival-card h3 { color: #ffb300; }
-
-.festival-meta {
-    font-weight: 600;
-    color: #666;
-    margin-bottom: 1rem;
+.modal-desc-box p {
+    margin: 0;
     font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--agr-muted);
 }
-body.dark-theme .festival-meta { color: #aaa; }
 
-.festival-card p:not(.festival-meta) {
-    line-height: 1.6;
-    color: #555;
-    margin-bottom: 0;
+.modal-sources {
+    border-top: 1px solid var(--agr-border);
+    padding-top: 1rem;
 }
-body.dark-theme .festival-card p:not(.festival-meta) { color: #ccc; }
 
-/* --- Footer --- */
-.agri-footer {
-    text-align: center;
-    padding: 2rem;
-    border-top: 1px solid rgba(0,0,0,0.1);
+.modal-sources h4 {
+    font-size: 0.85rem;
+    color: var(--saffron);
+    margin: 0 0 0.25rem 0;
+    text-transform: uppercase;
 }
-body.dark-theme .agri-footer {
-    border-top: 1px solid rgba(255,255,255,0.1);
+
+.modal-sources p {
+    margin: 0;
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--agr-muted);
+}
+
+/* Responsive Overrides */
+@media (max-width: 968px) {
+    .peasant-workspace {
+        grid-template-columns: 1fr;
+    }
+    
+    .map-panel {
+        height: 400px;
+    }
 }
